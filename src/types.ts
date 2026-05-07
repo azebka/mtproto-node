@@ -38,6 +38,7 @@ export interface ProxyCreateRequest {
 
 export interface ProxyUpdateRequest {
   domain?: string;
+  rotateSecret?: boolean;
   tag?: string;
   name?: string;
   note?: string;

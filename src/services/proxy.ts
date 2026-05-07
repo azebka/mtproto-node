@@ -122,6 +122,10 @@ export async function updateProxy(id: string, req: ProxyUpdateRequest): Promise<
   const updates: Partial<ProxyConfig> = {};
 
   if (req.domain) updates.domain = req.domain;
+  if (req.rotateSecret === true) {
+    updates.secret = generateSecret();
+    needsRestart = true;
+  }
   if (req.tag !== undefined) updates.tag = req.tag;
   if (req.name !== undefined) updates.name = req.name;
   if (req.note !== undefined) updates.note = req.note;
@@ -155,7 +159,7 @@ export async function updateProxy(id: string, req: ProxyUpdateRequest): Promise<
     await dockerService.removeProxyContainer(proxy.containerName);
     await dockerService.createProxyContainer(
       proxy.containerName,
-      proxy.secret,
+      updates.secret ?? proxy.secret,
       updates.domain || proxy.domain,
       proxy.listenPort || config.nginxPort,
       updates.tag !== undefined ? updates.tag : proxy.tag,

@@ -198,6 +198,25 @@ curl -X POST http://NODE_IP:8443/api/proxies \
 | `listenPort` | Нет | Собственный TCP-порт прокси (если не 443) |
 | `vpnSubscription` | Нет | URL подписки VLESS для VPN-туннеля |
 
+### Обновление прокси
+
+```bash
+curl -X PUT http://NODE_IP:8443/api/proxies/PROXY_ID \
+  -H "Authorization: Bearer TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"rotateSecret": true}'
+```
+
+| Параметр | Описание |
+|----------|----------|
+| `domain` | Новый fake TLS домен |
+| `rotateSecret` | Сгенерировать новый секрет и пересоздать proxy-контейнер |
+| `tag` | Промо-тег для Telegram |
+| `name` | Название прокси |
+| `note` | Заметка |
+| `maxConnections` | Лимит одновременных подключений |
+| `vpnSubscription` | URL подписки VLESS для VPN-туннеля |
+
 ## Требования
 
 - Linux (Ubuntu 20.04+, Debian 11+, CentOS 8+)
